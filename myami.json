@@ -1,0 +1,41 @@
+{
+    "variables":{
+        "aws_access_key": "<your access key>",
+        "aws_secret_key": "<your secret kez>"
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "us-east-2",
+        "source_ami": "ami-6a003c0f",
+        "ami_virtualization_type": "hvm",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ssh_private_key_file": "<your private .pem key>",
+        "ssh_keypair_name": "<your keypair name>",
+        "ami_name": "packer-wordpress",
+        "ami_description": "EC2 AMI Ubuntu", 
+            "tags": {
+            "role": "wordpress"
+            },
+            "run_tags": {
+            "role": "wordpress"
+            }
+            }
+    ],
+
+   
+   "provisioners": [
+    {   "type": "shell",    "inline": [ "sudo add-apt-repository 'deb http://us.archive.ubuntu.com/ubuntu/ xenial universe multiverse'",
+                                        "sudo apt update",
+                                        "sudo apt-get install -y python-dev",
+                                        "wget https://bootstrap.pypa.io/get-pip.py",
+                                        "sudo python get-pip.py",
+                                        "sudo ln -s /usr/local/bin/pip /usr/bin/pip",
+                                        "sudo pip install ansible"
+                                        ]},
+    {   "type": "file",     "source": "run.sh", "destination": "/home/ubuntu/run.sh"},
+    {   "type": "ansible-local","playbook_file": "mystuff.yaml"}
+  ]
+}

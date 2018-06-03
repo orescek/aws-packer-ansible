@@ -1,0 +1,1 @@
+docker run -p 8000:80 -e WORDPRESS_DB_HOST=<add your Endpoint>:3306  -e WORDPRESS_DB_USER=<your DB username> -e WORDPRESS_DB_PASSWORD=<your DB pass> -d wordpress
