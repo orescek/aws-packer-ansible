@@ -14,10 +14,6 @@
       - name: add user mod
         command: sudo usermod -aG docker ubuntu
         become: yes
-      
-      - name: add user mod
-        command: sudo usermod -aG docker ubuntu
-        become: yes
 
       - name: get wordpress image
         command: docker pull wordpress
